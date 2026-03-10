@@ -1,0 +1,36 @@
+services:
+# PSQL
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: mealaton
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+# Spring
+  app:
+    image: thoony/mealaton-api
+    ports:
+      - "11111:11111"
+    env_file:
+      - mealaton.env
+    depends_on:
+      - db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+# FastAPI
+  fastapi:
+    image: thoony/mealaton-fastapi
+    ports:
+      - "8000:8000"
+    depends_on:
+      - app
+    environment:
+      SPRING_API_URL: http://app:11111
+
+# Volumes(Docker PSQL)
+volumes:
+  postgres_data:

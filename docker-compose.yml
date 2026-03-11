@@ -7,9 +7,9 @@ services:
     env_file:
       - mealaton.env
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${DATABASE_USERNAME}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: mealaton
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -32,3 +32,5 @@ services:
       - app
     environment:
       SPRING_API_URL: http://app:11111
+volumes:
+  postgres_data:

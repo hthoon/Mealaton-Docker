@@ -1,5 +1,5 @@
 services:
-# PSQL
+  # PSQL
   db:
     image: postgres:15
     ports:
@@ -13,7 +13,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-# Spring
+  # Spring
   app:
     image: thoony/mealaton-api
     ports:
@@ -23,7 +23,7 @@ services:
     depends_on:
       - db
 
-# FastAPI
+  # FastAPI
   fastapi:
     image: thoony/mealaton-fastapi
     ports:
@@ -32,5 +32,16 @@ services:
       - app
     environment:
       SPRING_API_URL: http://app:11111
+
+  # Nginx - Spring 서버로만 진입
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+
 volumes:
   postgres_data:

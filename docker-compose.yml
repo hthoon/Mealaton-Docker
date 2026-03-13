@@ -2,8 +2,8 @@ services:
   # PSQL
   db:
     image: postgres:15
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432"
     env_file:
       - mealaton.env
     environment:
@@ -16,8 +16,8 @@ services:
   # Spring
   app:
     image: thoony/mealaton-api
-    ports:
-      - "11111:11111"
+    expose:
+      - "11111"
     env_file:
       - mealaton.env
     depends_on:
@@ -26,8 +26,8 @@ services:
   # FastAPI
   fastapi:
     image: thoony/mealaton-fastapi
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     depends_on:
       - app
     environment:
